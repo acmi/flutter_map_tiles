@@ -244,15 +244,3 @@ class _SphericalMercatorDecoder extends Converter<Point, LatLng> {
     );
   }
 }
-
-main(List<String> args) {
-  print(const SphericalMercator().bounds);
-  print(const SphericalMercator().encode(new LatLng(-90, -180)));
-  print(const SphericalMercator().encode(new LatLng(90, 180)));
-  print(const SphericalMercator().encode(new LatLng(0, 0)));
-  print(const SphericalMercator().encode(new LatLng(90, 0)));
-  print(const SphericalMercator()
-      .encode(new LatLng(SphericalMercator.MAX_LATITUDE, 0)));
-  print(new EPSG900913().projectedBounds);
-  print(new EPSG900913().latLngToPoint(new LatLng(48.6833, 6.2)));
-}
