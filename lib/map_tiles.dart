@@ -28,10 +28,11 @@ class TileView extends StatelessWidget {
           size.maxWidth / 2,
           size.maxHeight / 2,
         );
-        final centerCoordinates = new Point<int>(
-          center.dx ~/ tileSize.width,
-          center.dy ~/ tileSize.height,
-        );
+
+        final left = ((center.dx - screenCenter.dx) / tileSize.width).floor();
+        final top = ((center.dy - screenCenter.dy) / tileSize.height).floor();
+        final right = ((center.dx - screenCenter.dx + size.maxWidth) / tileSize.width).ceil();
+        final bottom = ((center.dy - screenCenter.dy + size.maxHeight) / tileSize.height).ceil();
 
         final children = <Widget>[];
         void addTile(Point<int> p) {
@@ -52,81 +53,10 @@ class TileView extends StatelessWidget {
           }
         }
 
-        addTile(centerCoordinates);
-
-        int border = 1;
-        int oldTilesCount;
-        while (oldTilesCount != children.length) {
-          oldTilesCount = children.length;
-
-          addTile(new Point<int>(
-            centerCoordinates.x - border,
-            centerCoordinates.y,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x + border,
-            centerCoordinates.y,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x,
-            centerCoordinates.y - border,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x,
-            centerCoordinates.y + border,
-          ));
-          for (var i = 1; i < border; i++) {
-            addTile(new Point<int>(
-              centerCoordinates.x - border,
-              centerCoordinates.y - i,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x - border,
-              centerCoordinates.y + i,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x + border,
-              centerCoordinates.y - i,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x + border,
-              centerCoordinates.y + i,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x - i,
-              centerCoordinates.y - border,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x + i,
-              centerCoordinates.y - border,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x - i,
-              centerCoordinates.y + border,
-            ));
-            addTile(new Point<int>(
-              centerCoordinates.x + i,
-              centerCoordinates.y + border,
-            ));
+        for (var x = left; x < right; x++) {
+          for (var y = top; y < bottom; y++) {
+            addTile(new Point(x, y));
           }
-          addTile(new Point<int>(
-            centerCoordinates.x - border,
-            centerCoordinates.y - border,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x + border,
-            centerCoordinates.y - border,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x - border,
-            centerCoordinates.y + border,
-          ));
-          addTile(new Point<int>(
-            centerCoordinates.x + border,
-            centerCoordinates.y + border,
-          ));
-
-          border++;
         }
 
         return new Stack(children: children);
